@@ -1,6 +1,6 @@
 const crypto = require('crypto');
 const utilities = {}
-const environments = require('../helpers/environments'); 2
+const environments = require('../helpers/environments');
 
 //parse JSON string to object
 utilities.parseJson = (jsonString) => {
@@ -18,26 +18,31 @@ utilities.parseJson = (jsonString) => {
 utilities.hash = (str) => {
     if (typeof (str) === 'string' && str.length > 0) {
         const hash = crypto
-            .createHmac('sha256', environments[process.env.NODE_ENV].secretKey)
+            .createHmac('sha256', environments.secretKey)
             .update(str)
             .digest('hex');
         return hash
-    } else {
-        return false
     }
+    return false
 }
 //random string crate hash/HMAC
 utilities.createRandomString = (strlength) => {
+    let length = strlength;
+    length = typeof strlength === 'number' && strlength > 0 ? strlength : false;
 
-    return 'comingsooon'
+    if (length) {
+        let possibleCharacter = 'abcdefghijklmnopqrstuvwxyz123456789'
+        let output = ''
+        for (let i = 1; i <= strlength; i++) {
+            const randomCharacter = possibleCharacter.charAt(math.floor(math.random() * possibleCharacter.length))
 
+            output += randomCharacter;
+        }
+        return output;
+    }
+    else
+        return false;
 }
-
-
-
-
-
-
 
 
 

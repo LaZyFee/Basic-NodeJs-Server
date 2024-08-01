@@ -1,5 +1,6 @@
-const { hash } = require('../../helpers/utilities');
+const { hash, parseJson } = require('../../helpers/utilities');
 const data = require('../../lib/data');
+
 const handler = {}
 
 handler.userHandler = (requestProperties, callback) => {
@@ -11,20 +12,24 @@ handler.userHandler = (requestProperties, callback) => {
     else {
         callback(405);
     }
-}
+};
 
 handler._users = {};
 
 handler._users.post = (requestProperties, callback) => {
-    const firstName = typeof (requestProperties.body.firstName) == 'string' && requestProperties.body.firstName.trim().length > 0 ? requestProperties.body.firstName : false;
-    const lastName = typeof (requestProperties.body.lastName) == 'string' && requestProperties.body.lastName.trim().length > 0 ? requestProperties.body.lastName : false;
-    const phone = typeof (requestProperties.body.phone) == 'string' && requestProperties.body.phone.trim().length == 11 ? requestProperties.body.phone : false;
-    const password = typeof (requestProperties.body.password) == 'string' && requestProperties.body.password.trim().length > 0 ? requestProperties.body.password : false;
-    const tosAgreement = typeof (requestProperties.body.tosAgreement) == 'boolean' ? requestProperties.body.tosAgreement : false;
+    // Log the request body to debug
+    // console.log('Request Body:', requestProperties.body);
 
+    const firstName = typeof requestProperties.body.firstName === 'string' && requestProperties.body.firstName.trim().length > 0 ? requestProperties.body.firstName.trim() : false;
+    const lastName = typeof requestProperties.body.lastName === 'string' && requestProperties.body.lastName.trim().length > 0 ? requestProperties.body.lastName.trim() : false;
+    const phone = typeof requestProperties.body.phone === 'string' && requestProperties.body.phone.trim().length === 11 ? requestProperties.body.phone.trim() : false;
+    const password = typeof requestProperties.body.password === 'string' && requestProperties.body.password.trim().length > 0 ? requestProperties.body.password.trim() : false;
+    const tosAgreement = typeof requestProperties.body.tosAgreement == 'boolean' ? requestProperties.body.tosAgreement : false;
+
+    // console.log(firstName, lastName, phone, password, tosAgreement);
     if (firstName && lastName && phone && password && tosAgreement) {
-        // make sure that user doesn't already exist
-        data.read('users', phone, (err, data) => {
+        // Check if user already exists
+        data.read('users', phone, (err) => {
             if (err) {
                 const userObject = {
                     firstName,
@@ -32,38 +37,41 @@ handler._users.post = (requestProperties, callback) => {
                     phone,
                     password: hash(password),
                     tosAgreement
-                }
-                // store the new user to db
+                };
+                // Store the new user in the database
                 data.create('users', phone, userObject, (err) => {
                     if (!err) {
                         callback(200, {
                             message: 'User was created successfully'
-                        })
+                        });
                     } else {
                         callback(500, {
                             error: 'There was a problem in the server side'
-                        })
+                        });
                     }
-                })
+                });
             } else {
                 callback(400, {
                     error: 'User already exists'
-                })
+                });
             }
-        })
-    } else {
+        });
+    }
+    else {
         callback(400, {
             error: 'You have a problem in your request'
-        })
+        });
     }
 
-}
+};
+
 handler._users.get = (requestProperties, callback) => {
     //check the phone if valid
-    const phone = typeof (requestProperties.queryStringObject.phone) == 'string' && requestProperties.queryStringObject.phone.trim().length == 11 ? requestProperties.queryStringObject.phone : false;
+    const phone = typeof requestProperties.queryStringObject.phone === 'string' && requestProperties.queryStringObject.phone.trim().length == 11 ? requestProperties.queryStringObject.phone : false;
     if (phone) {
         //lookup the user
-        data.read('users', phone, (err, data) => {
+        data.read('users', phone, (err, user) => {
+            const data = { ...parseJson(user) }
             if (!err && data) {
                 delete data.password;
                 callback(200, data);
@@ -81,15 +89,16 @@ handler._users.get = (requestProperties, callback) => {
 }
 handler._users.put = (requestProperties, callback) => {
     //check the phone if valid
-    const phone = typeof (requestProperties.body.phone) == 'string' && requestProperties.body.phone.trim().length == 11 ? requestProperties.body.phone : false;
+    const phone = typeof (requestProperties.body.phone) === 'string' && requestProperties.body.phone.trim().length == 11 ? requestProperties.body.phone : false;
     //check the optional fields
-    const firstName = typeof (requestProperties.body.firstName) == 'string' && requestProperties.body.firstName.trim().length > 0 ? requestProperties.body.firstName : false;
-    const lastName = typeof (requestProperties.body.lastName) == 'string' && requestProperties.body.lastName.trim().length > 0 ? requestProperties.body.lastName : false;
-    const password = typeof (requestProperties.body.password) == 'string' && requestProperties.body.password.trim().length > 0 ? requestProperties.body.password : false;
+    const firstName = typeof (requestProperties.body.firstName) === 'string' && requestProperties.body.firstName.trim().length > 0 ? requestProperties.body.firstName : false;
+    const lastName = typeof (requestProperties.body.lastName) === 'string' && requestProperties.body.lastName.trim().length > 0 ? requestProperties.body.lastName : false;
+    const password = typeof (requestProperties.body.password) === 'string' && requestProperties.body.password.trim().length > 0 ? requestProperties.body.password : false;
     if (phone) {
         if (firstName || lastName || password) {
             //lookup the user
             data.read('users', phone, (err, userData) => {
+
                 if (!err && userData) {
                     if (firstName) {
                         userData.firstName = firstName
@@ -132,7 +141,7 @@ handler._users.put = (requestProperties, callback) => {
 }
 handler._users.delete = (requestProperties, callback) => {
     //check the phone if valid
-    const phone = typeof (requestProperties.queryStringObject.phone) == 'string' && requestProperties.queryStringObject.phone.trim().length == 11 ? requestProperties.queryStringObject.phone : false;
+    const phone = typeof (requestProperties.queryStringObject.phone) === 'string' && requestProperties.queryStringObject.phone.trim().length == 11 ? requestProperties.queryStringObject.phone : false;
     if (phone) {
         //lookup the user
         data.read('users', phone, (err, data) => {

@@ -39,9 +39,9 @@ handler.handleReqRes = (req, res) => {
     const chosenHandler = routes[trimmedPath] ? routes[trimmedPath] : notFoundHandler;
 
 
-    req.on('error', (err) => {
-        console.log(err);
-    });
+    // req.on('error', (err) => {
+    //     console.log(err);
+    // });
 
     req.on('data', (buffer) => {
         realData += decoder.write(buffer);

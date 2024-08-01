@@ -2,8 +2,8 @@ const handler = {}
 
 handler.sampleHandler = (requestProperties, callback) => {
 
-    callback(406, {
-        message: 'sample handler'
+    callback(200, {
+        message: 'this is sample handler'
 
     });
 
