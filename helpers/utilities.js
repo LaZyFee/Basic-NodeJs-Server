@@ -34,7 +34,7 @@ utilities.createRandomString = (strlength) => {
         let possibleCharacter = 'abcdefghijklmnopqrstuvwxyz123456789'
         let output = ''
         for (let i = 1; i <= strlength; i++) {
-            const randomCharacter = possibleCharacter.charAt(math.floor(math.random() * possibleCharacter.length))
+            const randomCharacter = possibleCharacter.charAt(Math.floor(Math.random() * possibleCharacter.length))
 
             output += randomCharacter;
         }
