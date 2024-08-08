@@ -1,7 +1,7 @@
 const { hash, parseJSON, createRandomString } = require('../../helpers/utilities');
 const data = require('../../lib/data');
 const tokenHandler = require('./tokenHandler'); //import tokenHandler
-const { maxChecks } = require('../../helpers/environments')
+const { maxChecks } = require('../../helpers/environments').default
 
 const handler = {}
 
