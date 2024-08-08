@@ -3,7 +3,6 @@
 
 //module scaffolding
 const environments = {}
-require('dotenv').config()
 
 
 
