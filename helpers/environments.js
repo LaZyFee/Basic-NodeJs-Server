@@ -3,6 +3,8 @@
 
 //module scaffolding
 const environments = {}
+require('dotenv').config()
+
 
 
 environments.staging = {
@@ -11,9 +13,9 @@ environments.staging = {
     secretKey: 'thisIsASecretKey',
     maxChecks: 5,
     twilio: {
-        fromPhone: '+12089532154',
-        accountSid: 'AC74ca703f99618fce73cf811d846237c3',
-        authToken: 'e4d9a37b1572a566cd96438ca7ae224f',
+        fromPhone: process.env.TWILIO_FROM_PHONE,
+        accountSid: process.env.TWILIO_ACCOUNT_SID,
+        authToken: process.env.TWILIO_AUTH_TOKEN,
     },
 
 }
@@ -24,9 +26,9 @@ environments.production = {
     secretKey: 'thisIsASecretKey',
     maxChecks: 5,
     twilio: {
-        fromPhone: '+12089532154',
-        accountSid: 'AC74ca703f99618fce73cf811d846237c3',
-        authToken: 'e4d9a37b1572a566cd96438ca7ae224f',
+        fromPhone: process.env.TWILIO_FROM_PHONE,
+        accountSid: process.env.TWILIO_ACCOUNT_SID,
+        authToken: process.env.TWILIO_AUTH_TOKEN,
     },
 
 }
