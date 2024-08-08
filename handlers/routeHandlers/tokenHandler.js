@@ -1,4 +1,4 @@
-const { hash, createRandomString, parseJson } = require('../../helpers/utilities');
+const { hash, createRandomString, parseJSON } = require('../../helpers/utilities');
 const data = require('../../lib/data');
 const handler = {}
 handler.tokenHandler = (requestProperties, callback) => {
@@ -22,7 +22,7 @@ handler._token.post = (requestProperties, callback) => {
         data.read('users', phone, (err, userData) => {
             let hashedPassword = hash(password);
 
-            if (hashedPassword === parseJson(userData).password) {
+            if (hashedPassword === parseJSON(userData).password) {
                 let tokenId = createRandomString(20)
                 let expires = Date.now() + 60 * 60 * 1000;
 
@@ -64,7 +64,7 @@ handler._token.get = (requestProperties, callback) => {
     if (id) {
         //lookup the token
         data.read('tokens', id, (err, tokenData) => {
-            const token = { ...parseJson(tokenData) }
+            const token = { ...parseJSON(tokenData) }
             if (!err && token) {
                 callback(200, token)
             }
@@ -88,7 +88,7 @@ handler._token.put = (requestProperties, callback) => {
     const extend = typeof (requestProperties.body.extend) === 'boolean' && requestProperties.body.extend === true ? true : false;
     if (id && extend) {
         data.read('tokens', id, (err, tokenData) => {
-            const token = { ...parseJson(tokenData) }
+            const token = { ...parseJSON(tokenData) }
             if (!err && token) {
                 if (token.expires > Date.now()) {
                     token.expires = Date.now() + 60 * 60 * 1000
@@ -129,7 +129,7 @@ handler._token.delete = (requestProperties, callback) => {
     const id = typeof (requestProperties.queryStringObject.id) === 'string' && requestProperties.queryStringObject.id.trim().length == 20 ? requestProperties.queryStringObject.id : false;
     if (id) {
         data.read('tokens', id, (err, tokenData) => {
-            const token = { ...parseJson(tokenData) }
+            const token = { ...parseJSON(tokenData) }
             if (!err && token) {
                 data.delete('tokens', id, (err) => {
                     if (!err) {
@@ -162,7 +162,7 @@ handler._token.delete = (requestProperties, callback) => {
 handler._token.verify = (id, phone, callback) => {
     data.read('tokens', id, (err, tokenData) => {
         if (!err && tokenData) {
-            if (parseJson(tokenData).phone == phone && parseJson(tokenData).expires > Date.now()) {
+            if (parseJSON(tokenData).phone == phone && parseJSON(tokenData).expires > Date.now()) {
                 callback(true)
             }
             else {

@@ -3,7 +3,7 @@ const utilities = {}
 const environments = require('../helpers/environments');
 
 //parse JSON string to object
-utilities.parseJson = (jsonString) => {
+utilities.parseJSON = (jsonString) => {
     let output;
     try {
         output = JSON.parse(jsonString);

@@ -1,1 +1,8 @@
-{"firstName":"Rabiul","lastName":"Hasan","phone":"01831355043","password":"79cd2260fccfcb536303c6ee6ed08b66af292f88770d4297ecf104a30dba9b33","tosAgreement":true}
+{
+  "firstName": "Rabiul",
+  "lastName": "Hasan",
+  "phone": "01831355043",
+  "password": "79cd2260fccfcb536303c6ee6ed08b66af292f88770d4297ecf104a30dba9b33",
+  "tosAgreement": true,
+  "checks": ["3n9qybh6yf7bd1keyabo"]
+}

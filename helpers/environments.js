@@ -8,13 +8,27 @@ const environments = {}
 environments.staging = {
     port: 3000,
     envName: 'staging',
-    secretKey: 'thisIsASecretKey'
+    secretKey: 'thisIsASecretKey',
+    maxChecks: 5,
+    twilio: {
+        fromPhone: '+12089532154',
+        accountSid: 'AC74ca703f99618fce73cf811d846237c3',
+        authToken: 'e4d9a37b1572a566cd96438ca7ae224f',
+    },
+
 }
 
 environments.production = {
     port: 5000,
     envName: 'production',
-    secretKey: 'thisIsASecretKey'
+    secretKey: 'thisIsASecretKey',
+    maxChecks: 5,
+    twilio: {
+        fromPhone: '+12089532154',
+        accountSid: 'AC74ca703f99618fce73cf811d846237c3',
+        authToken: 'e4d9a37b1572a566cd96438ca7ae224f',
+    },
+
 }
 
 //determine which environment was passed

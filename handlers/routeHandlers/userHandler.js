@@ -1,4 +1,4 @@
-const { hash, parseJson } = require('../../helpers/utilities');
+const { hash, parseJSON } = require('../../helpers/utilities');
 const data = require('../../lib/data');
 const tokenHandler = require('./tokenHandler'); //import tokenHandler
 
@@ -77,7 +77,7 @@ handler._users.get = (requestProperties, callback) => {
             if (tokenId) {
                 //lookup the user
                 data.read('users', phone, (err, user) => {
-                    const data = { ...parseJson(user) }
+                    const data = { ...parseJSON(user) }
                     if (!err && data) {
                         delete data.password;
                         callback(200, data);
@@ -97,7 +97,7 @@ handler._users.get = (requestProperties, callback) => {
 
         //lookup the user
         data.read('users', phone, (err, user) => {
-            const data = { ...parseJson(user) }
+            const data = { ...parseJSON(user) }
             if (!err && data) {
                 delete data.password;
                 callback(200, data);
@@ -129,7 +129,7 @@ handler._users.put = (requestProperties, callback) => {
                     //lookup the user
                     data.read('users', phone, (err, uData) => {
 
-                        const userData = { ...parseJson(uData) }
+                        const userData = { ...parseJSON(uData) }
 
                         if (!err && userData) {
                             if (firstName) {
