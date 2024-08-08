@@ -1,6 +1,6 @@
 const crypto = require('crypto');
 const utilities = {}
-const environments = require('../helpers/environments').default;
+const environments = require('../helpers/environments');
 
 //parse JSON string to object
 utilities.parseJSON = (jsonString) => {

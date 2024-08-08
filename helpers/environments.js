@@ -39,4 +39,4 @@ const currentEnvironment = typeof (process.env.NODE_ENV) == 'string' ? process.e
 const environmentToExport = typeof (environments[currentEnvironment]) == 'object' ? environments[currentEnvironment] : environments.staging;
 
 //export module
-export default environmentToExport
+module.exports = environmentToExport

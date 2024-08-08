@@ -1,5 +1,5 @@
 const https = require('https');
-const { twilio } = require('./environments').default;
+const { twilio } = require('./environments');
 const queryString = require('querystring');
 
 const notification = {};
